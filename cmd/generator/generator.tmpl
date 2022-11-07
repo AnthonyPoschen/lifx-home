@@ -1,0 +1,28 @@
+// DO NOT EDIT - THIS FILE IS GENERATED
+package {{.PackageName}}
+
+//////////////////////////////////////
+// Enums
+{{range $key, $value := .Data.enums}}
+//////////////////////////////////////
+
+type {{$key}} {{$value.type}}
+    {{- range $value.values}}
+        {{- if ne .name "reserved"}}
+const {{.name}} {{$key}} = {{.value}}
+        {{- end}}
+    {{- end}}
+{{- end}}
+
+//////////////////////////////////////
+// Fields
+{{range $key, $value := .Data.fields}}
+//////////////////////////////////////
+// {{$key}} is {{$value.size_bytes}} bytes large
+type {{$key}} struct {
+{{- range $value.fields}}
+    {{if ne .type "reserved"}}{{.name}} {{ StripBrackets .type}} // {{.size_bytes}} Bytes
+    {{- else}}_ [{{.size_bytes}}]byte // {{.size_bytes}} Bytes{{end}}
+    {{- end}}
+}
+{{end}}
