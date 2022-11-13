@@ -10,7 +10,6 @@ import (
 	"net/http"
 	"os"
 	"strings"
-
 	"text/template"
 
 	yaml "gopkg.in/yaml.v2"
@@ -37,6 +36,13 @@ type templateVars struct {
 func StripBrackets(value string) string {
 	res := strings.Join(strings.Split(value, "<"), "")
 	return strings.Join(strings.Split(res, ">"), "")
+}
+
+type tee struct {
+	Foo   [4]byte
+	Bar   byte
+	Zelo  [2]byte
+	romeo [6]byte
 }
 
 func main() {

@@ -1,6 +1,7 @@
 // DO NOT EDIT - THIS FILE IS GENERATED
 package {{.PackageName}}
 
+import "encoding/binary"
 //////////////////////////////////////
 // Enums
 {{range $key, $value := .Data.enums}}
@@ -24,5 +25,23 @@ type {{$key}} struct {
     {{if ne .type "reserved"}}{{.name}} {{ StripBrackets .type}} // {{.size_bytes}} Bytes
     {{- else}}_ [{{.size_bytes}}]byte // {{.size_bytes}} Bytes{{end}}
     {{- end}}
+}
+
+func (d {{$key}}) Write(w io.Writer) (error) {
+    return binary.Write(w,binary.LittleEndian,d)
+}
+func (d *{{$key}}) Read(r io.Reader) (error) {
+    return binary.Read(r,binary.LittleEndian,d)
+}
+{{end}}
+
+{{define "ButtonDetails"}}
+    
+{{end}}
+//////////////////////////////////////
+// Packets
+{{ range $key, $value := .Data.packets}}
+type {{$key}} struct {
+    
 }
 {{end}}
