@@ -1,7 +1,10 @@
 // DO NOT EDIT - THIS FILE IS GENERATED
 package {{.PackageName}}
 
-import "encoding/binary"
+import (
+    "encoding/binary"
+    "io"
+)
 //////////////////////////////////////
 // Enums
 {{range $key, $value := .Data.enums}}
@@ -35,13 +38,13 @@ func (d *{{$key}}) Read(r io.Reader) (error) {
 }
 {{end}}
 
-{{define "ButtonDetails"}}
-    
-{{end}}
+
 //////////////////////////////////////
-// Packets
-{{ range $key, $value := .Data.packets}}
+// Unuions
+{{range $key, $value := .Data.unuions}}
 type {{$key}} struct {
-    
+{{- range $value.fields}}
+    {{if eq}}_ [{{.size_bytes}}]byte // {{.size_bytes}} Bytes{{end}}
+    Data [{{$value.size_bytes}}]byte // {{.size_bytes}} Bytes
 }
 {{end}}

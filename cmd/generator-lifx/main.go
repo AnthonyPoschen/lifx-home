@@ -38,13 +38,6 @@ func StripBrackets(value string) string {
 	return strings.Join(strings.Split(res, ">"), "")
 }
 
-type tee struct {
-	Foo   [4]byte
-	Bar   byte
-	Zelo  [2]byte
-	romeo [6]byte
-}
-
 func main() {
 	resp, err := http.Get(fmt.Sprintf("https://raw.githubusercontent.com/LIFX/public-protocol/%s/protocol.yml", version))
 	if err != nil {
@@ -78,5 +71,9 @@ func main() {
 		fmt.Printf("Failed to format go code: %s", err)
 		os.Exit(1)
 	}
-	fmt.Println(string(formatted))
+	err = ioutil.WriteFile(outputDir+"/lifx-data.go", formatted, 0644)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
 }
